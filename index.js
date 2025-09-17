@@ -1,20 +1,27 @@
-let number = 0; //總和
+let firstNum = 0; 
+let secondNum = 0;
+let symbol = "";
 
-function operateAdd(a, b){
-    let number = a + b;
 
-}
+function operate(firstNum, secondNum, symbol){
 
-function operateSubtract(a, b){
-    let number = a - b;
-}
+    if(symbol === "+"){
+        return firstNum + secondNum;
+    }
 
-function operateMultiply(a, b){
-    let number = a * b;
-}
+    if(symbol === "-"){
+        return firstNum - secondNum;
+    }
 
-function operateDivide(a, b){
-    let number =  a / b;
+    if(symbol === "*"){
+        return firstNum * secondNum;
+    }
+
+    if(symbol === "/"){
+        return firstNum / secondNum;
+    }  
+
+
 }
 
 

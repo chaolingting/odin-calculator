@@ -1,5 +1,14 @@
-#screen{
-    background: pink;
+:root{
+    font-size: 15px;
+}
+
+.screen{
     width: 200px;
     height: 30px;
+    border: 1px solid #9e9;
+}
+
+button {
+    font-size: 1.5rem;
+    
 }

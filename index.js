@@ -3,59 +3,115 @@ const addBtn = document.querySelector(".add");
 const subtractBtn = document.querySelector(".subtract");
 const multiplyBtn = document.querySelector(".multiply");
 const divideBtn = document.querySelector(".divide");
+const equalBtn = document.querySelector(".equal");
+const clearBtn = document.querySelector(".clear");
+const deleteBtn = document.querySelector(".delete")
+//Numbers
 const numBtns = document.querySelectorAll(".num");
-
-const numbers = {
-    "0": 0,
-    "1": 1,
-    "2": 2,
-    "3": 3,
-    "4": 4,
-    "5": 5,
-    "6": 6,
-    "7": 7,
-    "8": 8,
-    "9": 9 
-}
+//Screen
+const screen = document.querySelector(".screen");
 
 
-numBtns.forEach(btn =>{
-    btn.addEventListener("click", ()=>{
-        const num = btn.getAttribute("data-value")
-        console.log(numbers[num])
-    })
-} )
+
+addBtn.addEventListener("click", () => {
+    operation = "+";
+    screen.textContent = num1 + " " + operation;
+})
+
+subtractBtn.addEventListener("click", () => {
+    operation = "-";
+    screen.textContent = num1 + " " + operation;
+})
 
 
-let add = false;
-let subtract = false;
-let multiply = false;
-let divide = false;
+multiplyBtn.addEventListener("click", () => {
+    operation = "*";
+    screen.textContent = num1 + " " + operation;
+})
 
-addBtn.addEventListener("click", () => {add = true; console.log(operator(firstValue, secondValue)); add = false})
-subtractBtn.addEventListener("click", () => {subtract = true; console.log(operator(firstValue, secondValue)); subtract = false})
-multiplyBtn.addEventListener("click", () => {multiply = true; console.log(operator(firstValue, secondValue)); multiply = false})
-divideBtn.addEventListener("click", () => {divide = true; console.log(operator(firstValue, secondValue)); divide = false})
+divideBtn.addEventListener("click", () => {
+    operation = "/";
+    screen.textContent = num1 + " " + operation;
+})
 
-
-let firstValue = function(){
-    return numbers.value
-
-}
-
-
-const operator = function operator(firstValue, secondValue){
-    if (add){
-        return firstValue += secondValue;
-    } else if (subtract){
-        return firstValue -= secondValue;
-    } else if (multiply){
-        return firstValue *= secondValue;
-    } else if (divide){
-        return firstValue /= secondValue;   
+equalBtn.addEventListener("click", ()=>{
+    if (num1 !== "" && num2 !== "" && operation !== null) {
+        const result = operator(operation, Number(num1), Number(num2));
+        screen.textContent = result;
+    
+        num1 = result.toString();
+        num2 = "";
+        operation = null;
     }
+})
+
+clearBtn.addEventListener("click", () => {
+    num1 = "";
+    num2 = "";
+    operation = null;
+    screen.textContent = "";
+ 
+})
+
+
+deleteBtn.addEventListener("click", () => {
+    if(operation === null){
+        num1 = num1.slice(0, -1);
+        screen.textContent = num1;
+    }else if (num2 !== ""){
+        num2 = num2.slice(0, -1);
+        screen.textContent = num2;
+    } else {
+        screen.textContent = num1 + " " + operation; 
+    }
+    
+    
+})
+
+
+let num1 = "";
+let num2 = "";
+let operation = null;
+
+numBtns.forEach((btn)=>{
+    btn.addEventListener('click', ()=>{
+        const value = btn.dataset.value;
+
+        if(operation === null){
+            if(value === "." && num1.includes(".")) return;
+            if(value ==="." && num1 ==="" ){ num1 = "0."; }
+            else num1 += value;          
+
+            screen.textContent = num1;
+        } else{
+            if(value === "." && num1.includes(".")) return;
+            if(value ==="." && num2 ==="" ) num2 = "0.";
+            else num2 += value;            
+            screen.textContent = num1 + " " + operation + " " + num2;
+
+        }
+        
+    })
+
+})
+
+
+
+
+const operator = function operator(operation, num1, num2){
+    switch(operation){
+        case '+':
+            return num1 + num2;
+        case '-':
+            return num1 - num2;
+        case '*':
+            return num1 * num2;
+        case '/':
+            return num1 / num2;
+        default: 
+            return 0;
+    }
+
+
 }
-
-
-
 

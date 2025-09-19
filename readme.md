@@ -1,16 +1,4 @@
-pseudocode
+DEMO
 
-add(+)
-substract(-)
-multiply(*)
-divide(/)
-clear(ac)
-equal(=)
-
-first number + operator + second number
---> (variable) (variable/function) (variable)
-
-a display screen 
---> (variable)
-
-can store the content of the display in a variable for use in the next step
+I might used chatgpt too much in this project, I hope I can use more of my muscle memory in future projects.
+I also spent lots of time choosing colours(but I enjoyed it).

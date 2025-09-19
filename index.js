@@ -12,6 +12,24 @@ const numBtns = document.querySelectorAll(".num");
 const screen = document.querySelector(".screen");
 
 
+//Default screen
+screen.textContent = "0"
+
+
+let num1 = "";
+let num2 = "";
+let operation = null;
+let resetCal = function() {   
+    num1 = "";
+    num2 = "";
+    operation = null;
+    screen.textContent = "0";
+}
+
+let shouldReset = false;
+
+
+
 
 addBtn.addEventListener("click", () => {
     operation = "+";
@@ -36,48 +54,47 @@ divideBtn.addEventListener("click", () => {
 
 equalBtn.addEventListener("click", ()=>{
     if (num1 !== "" && num2 !== "" && operation !== null) {
-        const result = operator(operation, Number(num1), Number(num2));
+        let result = operator(operation, Number(num1), Number(num2));
+        result = parseFloat(result.toFixed(12));
         screen.textContent = result;
     
         num1 = result.toString();
         num2 = "";
         operation = null;
+        shouldReset = true;
     }
 })
 
-clearBtn.addEventListener("click", () => {
-    num1 = "";
-    num2 = "";
-    operation = null;
-    screen.textContent = "";
- 
-})
+clearBtn.addEventListener("click", resetCal)
 
 
 deleteBtn.addEventListener("click", () => {
     if(operation === null){
         num1 = num1.slice(0, -1);
-        screen.textContent = num1;
+        screen.textContent = num1 || 0;
     }else if (num2 !== ""){
         num2 = num2.slice(0, -1);
         screen.textContent = num2;
     } else {
-        screen.textContent = num1 + " " + operation; 
+        operation = null;
+        screen.textContent = num1 ; 
     }
     
     
 })
 
 
-let num1 = "";
-let num2 = "";
-let operation = null;
 
 numBtns.forEach((btn)=>{
     btn.addEventListener('click', ()=>{
         const value = btn.dataset.value;
 
         if(operation === null){
+            if(shouldReset){
+                num1 = "";
+                shouldReset = false;
+            }
+
             if(value === "." && num1.includes(".")) return;
             if(value ==="." && num1 ==="" ){ num1 = "0."; }
             else num1 += value;          
@@ -115,3 +132,29 @@ const operator = function operator(operation, num1, num2){
 
 }
 
+document.addEventListener("keydown", (e) => {
+    console.log(e.key)
+    if (e.key >= "0" && e.key <= "9" || e.key === "."){
+        const btn = [...numBtns].find(b => b.dataset.value === e.key);
+        if(btn){
+            btn.click()
+        }
+    }
+    if(["+","-","*","/"].includes(e.key)){
+        switch(e.key){
+            case "+": addBtn.click(); break;
+            case "-": subtractBtn.click(); break;
+            case "*": multiplyBtn.click(); break;
+            case "/": divideBtn.click(); break;
+        }
+    }
+    if (e.key === "=" || e.key ==="Enter"){
+        equalBtn.click();
+    }
+    if(e.key === "Delete"){
+        clearBtn.click()
+    }
+    if (e.key ==="Backspace"){
+        deleteBtn.click();
+    }
+})
